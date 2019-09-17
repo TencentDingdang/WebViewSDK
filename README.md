@@ -8,7 +8,7 @@ Android 4.0.3+。
 
 ## 接入文档
 
-请参考[腾讯云小微 - 资料文档](https://dingdang.qq.com/doc/page/293)。
+请参考[腾讯云小微 - 资料文档](https://dingdang.qq.com/doc/page/303)。
 
 demo代码在[本仓库的demo目录中](https://github.com/TencentDingdang/WebViewSDK/tree/master/demo/OfflineWebDemo)。
 
