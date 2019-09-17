@@ -23,11 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.tencent.ai.tvs.dmsdk.demo.WebActivity"
-            android:label="@string/module_web"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
 
         <activity
             android:name="com.tencent.ai.tvs.dmsdk.demo.WebDemoActivity"

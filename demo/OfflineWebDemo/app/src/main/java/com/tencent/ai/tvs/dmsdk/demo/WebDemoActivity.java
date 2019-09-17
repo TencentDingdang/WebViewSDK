@@ -18,6 +18,7 @@ import com.tencent.ai.dobbydemo.BuildConfig;
 import com.tencent.ai.dobbydemo.R;
 import com.tencent.ai.tvs.core.common.TVSDevice;
 import com.tencent.ai.tvs.env.ELoginPlatform;
+import com.tencent.ai.tvs.env.EUserAttrType;
 import com.tencent.ai.tvs.web.TVSWebController;
 import com.tencent.ai.tvs.web.TVSWebView;
 import com.tencent.ai.tvs.web.util.AndroidBug5497Workaround;
@@ -76,7 +77,7 @@ public class WebDemoActivity extends AppCompatActivity {
             // 不带Cache
             mController.setLoadCacheOnDisconnected(false);
         }
-        mController.loadURL("https://ddsdk.html5.qq.com/v2/opt/music/login");
+        mController.toPresetURL(EUserAttrType.QQMUSIC_QRLOGIN);
     }
 
     @Override
