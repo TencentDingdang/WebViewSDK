@@ -1,4 +1,4 @@
-package com.tencent.offlinewebdemo;
+package com.tencent.ai.tvs.dmsdk.demo.offlineweb;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +25,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.tencent.ai.dobbydemo.BuildConfig;
+import com.tencent.ai.dobbydemo.R;
 import com.tencent.ai.tvs.offlinewebtemplate.OfflineWebConstants;
 import com.tencent.ai.tvs.offlinewebtemplate.OfflineWebManager;
 import com.tencent.ai.tvs.web.tms.ITMSWebViewJsListener;
@@ -48,6 +52,9 @@ public class OfflineWebActivity extends AppCompatActivity {
 
     private String mH5Id = "";
     private long startTime, deltaTime;
+    private String sCurJason;
+    private String sCurTid;
+    private String sDialogRequestId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +78,8 @@ public class OfflineWebActivity extends AppCompatActivity {
 
         setContentView(R.layout.nativeweb_holo_light);
         mTvsHoloLightLayout = (RelativeLayout) findViewById(R.id.tvs_holo_light_layout);
-        mTvsHoloLightBackbtnLayout = (LinearLayout) findViewById(R.id.tvs_holo_light_backbtn_layout);
+        mTvsHoloLightBackbtnLayout =
+                (LinearLayout) findViewById(R.id.tvs_holo_light_backbtn_layout);
         mTvsHoloLightBackbtn = (ImageView) findViewById(R.id.tvs_holo_light_backbtn);
         mTvsHoloLightBackbtn.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
@@ -93,7 +101,8 @@ public class OfflineWebActivity extends AppCompatActivity {
 
         mWebView = OfflineWebManager.getInstance().getLoadWebView();
         if (null != mWebView) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams params =
+                    new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT);
             mWebView.setLayoutParams(params);
             mWebView.setListener(mViewListener);
@@ -109,8 +118,11 @@ public class OfflineWebActivity extends AppCompatActivity {
             Log.v(LOG_TAG_TIME, deltaTime / 1e6f + "ms----" + "create webview finish");
             startTime = System.nanoTime();
         }
+        sCurJason = OfflineWebManager.getInstance().getLoadJasonData();
+        sCurTid = OfflineWebManager.getInstance().getCurTid();
+        sDialogRequestId = OfflineWebManager.getInstance().mDialogRequestId;
         AndroidBug5497Workaround.assistActivity(this);
-        OfflineWebManager.getInstance().setWebActivity(this);
+        OfflineWebManager.getInstance().setWebActivity(sDialogRequestId, this);
     }
 
     @Override
@@ -143,6 +155,10 @@ public class OfflineWebActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.v(LOG_TAG, "OfflineWebActivity-----onNewIntent");
+        //这里可以通过接口获取到本轮会话的jason数据，模版id,会话id等。保存到界面实例中，退出时可能需要调用
+        sCurJason = OfflineWebManager.getInstance().getLoadJasonData();
+        sCurTid = OfflineWebManager.getInstance().getCurTid();
+        sDialogRequestId = OfflineWebManager.getInstance().mDialogRequestId;
     }
 
     @Override
@@ -157,13 +173,20 @@ public class OfflineWebActivity extends AppCompatActivity {
             //OfflineWebManager.getInstance().destroyWebView(mWebView);
             ((ViewGroup) mWebView.getParent()).removeView(mWebView);
         }
-        OfflineWebManager.getInstance().setWebActivity(null);
+        OfflineWebManager.getInstance().setWebActivity(sDialogRequestId, null);
+
+        //TODO 下面的逻辑如果接入了tvs sdk后，可能需要调用，停止tts播报，退出多轮
+/*        if (!TextUtils.isEmpty(sDialogRequestId)) {
+            TVSApi.getInstance().stopSpeech(sDialogRequestId);
+            TVSApi.getInstance().exitMultiSpeech(sDialogRequestId);
+        }*/
         super.onDestroy();
     }
 
 
     private void hideInputMethod(boolean isHoloTheme) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null && isHoloTheme) {
             //imm.hideSoftInputFromWindow(mTvsHoloLayout.getWindowToken(), 0);
         }
@@ -173,7 +196,8 @@ public class OfflineWebActivity extends AppCompatActivity {
 
         @Override
         public boolean onJsCallNativeFunc(String funcName, JSONObject funcParam) {
-            Log.v(LOG_TAG, "onJsCallNativeFunc funcName = " + funcName + ", funcParam = " + funcParam);
+            Log.v(LOG_TAG,
+                    "onJsCallNativeFunc funcName = " + funcName + ", funcParam = " + funcParam);
             if (OfflineWebConstants.JS_CMD_PROXYDATA.equals(funcName)) {
                 return true;
             } else if (OfflineWebConstants.JS_CMD_FINISHACT.equals(funcName)) {
@@ -210,7 +234,8 @@ public class OfflineWebActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onReceivedSslError(WebView webView, SslErrorHandler sslErrorHandler, SslError sslError) {
+        public void onReceivedSslError(WebView webView, SslErrorHandler sslErrorHandler,
+                                       SslError sslError) {
 
         }
 
@@ -227,7 +252,8 @@ public class OfflineWebActivity extends AppCompatActivity {
         public void onPageFinished(WebView webView, String s) {
             if (isDebugTime) {
                 deltaTime = System.nanoTime() - startTime;
-                Log.v(LOG_TAG_TIME, deltaTime / 1e6f + "ms----" + "ITMSWebViewListener onPageFinished");
+                Log.v(LOG_TAG_TIME, deltaTime / 1e6f + "ms----" + "ITMSWebViewListener " +
+                        "onPageFinished");
                 startTime = System.nanoTime();
             }
         }
@@ -236,7 +262,8 @@ public class OfflineWebActivity extends AppCompatActivity {
         public void onPageStarted(WebView webView, String s, Bitmap bitmap) {
             if (isDebugTime) {
                 deltaTime = System.nanoTime() - startTime;
-                Log.v(LOG_TAG_TIME, deltaTime / 1e6f + "ms----" + "ITMSWebViewListener onPageStarted");
+                Log.v(LOG_TAG_TIME, deltaTime / 1e6f + "ms----" + "ITMSWebViewListener " +
+                        "onPageStarted");
                 startTime = System.nanoTime();
             }
         }
@@ -254,7 +281,8 @@ public class OfflineWebActivity extends AppCompatActivity {
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+        public WebResourceResponse shouldInterceptRequest(WebView view,
+                                                          WebResourceRequest request) {
             return OfflineWebManager.getInstance().handleInterceptRequest(view, request);
         }
 

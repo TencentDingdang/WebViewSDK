@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tencent.ai.tvs.dmsdk.demo.MainActivity">
+
+    <RadioGroup
+        android:id="@+id/envRadioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RadioButton
+            android:id="@+id/testingRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="测试环境" />
+
+        <RadioButton
+            android:id="@+id/experienceRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="体验环境" />
+
+        <RadioButton
+            android:id="@+id/productionRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="正式环境" />
+
+    </RadioGroup>
+
+    <Button
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/openWebViewButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="音乐授权Demo"
+        app:layout_constraintTop_toBottomOf="@id/envRadioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/openWebTemplateUiButton"
+        android:layout_marginTop="48dp"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="模版UI示例Demo"
+        app:layout_constraintTop_toBottomOf="@id/envRadioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

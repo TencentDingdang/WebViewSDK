@@ -1,0 +1,14 @@
+javadoc
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+# VS Code
+.project
+.classpath
+.settings/

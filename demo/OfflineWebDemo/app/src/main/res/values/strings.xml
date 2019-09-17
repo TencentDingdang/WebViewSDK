@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">WebDemo</string>
+    <string name="app_name">DMSDK Web</string>
+    <string name="module_web">Web页面</string>
 </resources>

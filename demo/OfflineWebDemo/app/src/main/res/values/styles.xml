@@ -9,7 +9,7 @@
     </style>
 
     <!--全屏-->
-    <style name="FullScreenTheme" parent="AppTheme">
+    <style name="FullScreenTheme" parent="@style/AppTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
     </style>
@@ -19,5 +19,4 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
-
 </resources>

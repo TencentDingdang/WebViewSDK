@@ -1,4 +1,4 @@
-package com.tencent.offlinewebdemo;
+package com.tencent.ai.tvs.dmsdk.demo.offlineweb;
 
 public class OfflineAlbumActivity extends OfflineWebActivity {
 }

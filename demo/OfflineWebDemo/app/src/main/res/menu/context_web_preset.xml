@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/authMenuItem"
+        android:title="账号授权" />
+
+    <item
+        android:id="@+id/qqMusicMenuItem"
+        android:title="QQ音乐" />
+
+    <item
+        android:id="@+id/profileMenuItem"
+        android:title="个人中心" />
+
+    <item
+        android:id="@+id/memberRequestMenuItem"
+        android:title="会员领取" />
+
+    <item
+        android:id="@+id/memberPurchaseMenuItem"
+        android:title="会员充值" />
+
+    <item
+        android:id="@+id/phoneMenuItem"
+        android:title="手机号地址" />
+
+    <item
+        android:id="@+id/iotMenuItem"
+        android:title="智能家居" />
+
+    <item
+        android:id="@+id/musicCtrlItem"
+        android:title="音乐播控" />
+
+</menu>
