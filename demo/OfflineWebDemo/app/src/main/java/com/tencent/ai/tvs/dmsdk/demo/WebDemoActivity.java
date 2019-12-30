@@ -1,6 +1,7 @@
 package com.tencent.ai.tvs.dmsdk.demo;
 
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -166,6 +168,13 @@ public class WebDemoActivity extends AppCompatActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(String url) {
+            return false;
+        }
+
+        @Override
+        public boolean showDialog(String title, String message,
+                                  String positiveButtonText, @Nullable DialogInterface.OnClickListener positiveButtonListener,
+                                  @Nullable String negativeButtonText, @Nullable DialogInterface.OnClickListener negativeButtonListener) {
             return false;
         }
     }
