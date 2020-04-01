@@ -79,7 +79,7 @@ public class WebDemoActivity extends AppCompatActivity {
             // 不带Cache
             mController.setLoadCacheOnDisconnected(false);
         }
-        mController.toPresetURL(EUserAttrType.QQMUSIC_QRLOGIN);
+        mController.loadPresetURLByPath("/v2/page/qqmusic_qrcode");
     }
 
     @Override
